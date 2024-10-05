@@ -1,0 +1,40 @@
+{
+  "name": "axios-zod-gen",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Use configurations to generate API functions with Axios.",
+  "author": "PoHsun",
+  "license": "MIT",
+  "homepage": "https://github.com/pohsun4work/AxiosZodGen#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pohsun4work/AxiosZodGen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pohsun4work/AxiosZodGen/issues"
+  },
+  "keywords": [
+    "axios"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint . --fix"
+  },
+  "peerDependencies": {
+    "axios": "^1.7.7"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^3.7.3",
+    "eslint": "^9.11.1",
+    "remeda": "^2.14.0",
+    "tsup": "^8.3.0"
+  }
+}
