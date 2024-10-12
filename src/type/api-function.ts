@@ -23,37 +23,37 @@ type InferOrUndefined<T extends ZodType | undefined> = T extends ZodType ? z.inf
 type ApiFunctionPQB<T extends IConfig> = T['pathParamSchema'] extends ZodType
   ? T['querySchema'] extends ZodType
     ? T['bodySchema'] extends ZodType
-      ? ApiFunctionBase<InferOrUndefined<T['pathParamSchema']>, InferOrUndefined<T['querySchema']>, InferOrUndefined<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
-      : ApiFunctionBase<InferOrUndefined<T['pathParamSchema']>, InferOrUndefined<T['querySchema']>, undefined, InferOrUndefined<T['returnSchema']>>
+      ? ApiFunctionBase<z.infer<T['pathParamSchema']>, z.infer<T['querySchema']>, z.infer<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
+      : ApiFunctionBase<z.infer<T['pathParamSchema']>, z.infer<T['querySchema']>, undefined, InferOrUndefined<T['returnSchema']>>
     : T['bodySchema'] extends ZodType
-      ? ApiFunctionBase<InferOrUndefined<T['pathParamSchema']>, undefined, InferOrUndefined<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
-      : ApiFunctionBase<InferOrUndefined<T['pathParamSchema']>, undefined, undefined, InferOrUndefined<T['returnSchema']>>
+      ? ApiFunctionBase<z.infer<T['pathParamSchema']>, undefined, z.infer<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
+      : ApiFunctionBase<z.infer<T['pathParamSchema']>, undefined, undefined, InferOrUndefined<T['returnSchema']>>
   : T['querySchema'] extends ZodType
     ? T['bodySchema'] extends ZodType
-      ? ApiFunctionBase<undefined, InferOrUndefined<T['querySchema']>, InferOrUndefined<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
-      : ApiFunctionBase<undefined, InferOrUndefined<T['querySchema']>, undefined, InferOrUndefined<T['returnSchema']>>
+      ? ApiFunctionBase<undefined, z.infer<T['querySchema']>, z.infer<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
+      : ApiFunctionBase<undefined, z.infer<T['querySchema']>, undefined, InferOrUndefined<T['returnSchema']>>
     : T['bodySchema'] extends ZodType
-      ? ApiFunctionBase<undefined, undefined, InferOrUndefined<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
+      ? ApiFunctionBase<undefined, undefined, z.infer<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
       : ApiFunctionBase<undefined, undefined, undefined, InferOrUndefined<T['returnSchema']>>;
 
 type ApiFunctionPQ<T extends IConfig> = T['pathParamSchema'] extends ZodType
   ? T['querySchema'] extends ZodType
-    ? ApiFunctionBase<InferOrUndefined<T['pathParamSchema']>, InferOrUndefined<T['querySchema']>, undefined, InferOrUndefined<T['returnSchema']>>
-    : ApiFunctionBase<InferOrUndefined<T['pathParamSchema']>, undefined, undefined, InferOrUndefined<T['returnSchema']>>
+    ? ApiFunctionBase<z.infer<T['pathParamSchema']>, z.infer<T['querySchema']>, undefined, InferOrUndefined<T['returnSchema']>>
+    : ApiFunctionBase<z.infer<T['pathParamSchema']>, undefined, undefined, InferOrUndefined<T['returnSchema']>>
   : T['querySchema'] extends ZodType
-    ? ApiFunctionBase<undefined, InferOrUndefined<T['querySchema']>, undefined, InferOrUndefined<T['returnSchema']>>
+    ? ApiFunctionBase<undefined, z.infer<T['querySchema']>, undefined, InferOrUndefined<T['returnSchema']>>
     : ApiFunctionBase<undefined, undefined, undefined, InferOrUndefined<T['returnSchema']>>;
 
 type ApiFunctionPB<T extends IConfig> = T['pathParamSchema'] extends ZodType
   ? T['bodySchema'] extends ZodType
-    ? ApiFunctionBase<InferOrUndefined<T['pathParamSchema']>, undefined, InferOrUndefined<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
-    : ApiFunctionBase<InferOrUndefined<T['pathParamSchema']>, undefined, undefined, InferOrUndefined<T['returnSchema']>>
+    ? ApiFunctionBase<z.infer<T['pathParamSchema']>, undefined, z.infer<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
+    : ApiFunctionBase<z.infer<T['pathParamSchema']>, undefined, undefined, InferOrUndefined<T['returnSchema']>>
   : T['bodySchema'] extends ZodType
-    ? ApiFunctionBase<undefined, undefined, InferOrUndefined<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
+    ? ApiFunctionBase<undefined, undefined, z.infer<T['bodySchema']>, InferOrUndefined<T['returnSchema']>>
     : ApiFunctionBase<undefined, undefined, undefined, InferOrUndefined<T['returnSchema']>>;
 
 type ApiFunctionP<T extends IConfig> = T['pathParamSchema'] extends ZodType
-  ? ApiFunctionBase<InferOrUndefined<T['pathParamSchema']>, undefined, undefined, InferOrUndefined<T['returnSchema']>>
+  ? ApiFunctionBase<z.infer<T['pathParamSchema']>, undefined, undefined, InferOrUndefined<T['returnSchema']>>
   : ApiFunctionBase<undefined, undefined, undefined, InferOrUndefined<T['returnSchema']>>;
 
 /** Maps the API function type based on the provided configuration.
