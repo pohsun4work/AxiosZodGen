@@ -93,6 +93,13 @@ describe('`findById` function', () => {
     const result = await findById();
     expectTypeOf(result).toEqualTypeOf<AxiosResponse<MockDataType, any>>();
   });
+
+  it('get right data', async () => {
+    const result = await findById();
+
+    expect(result.data).toBeDefined();
+    expect(result.data.id).toBe('1');
+  });
 });
 
 describe('`add` function', () => {
