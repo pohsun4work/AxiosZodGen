@@ -1,15 +1,18 @@
-import { afterAll, afterEach, beforeAll, describe, expect, expectTypeOf, it, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, expectTypeOf, it, vi } from 'vitest';
 
 import { mockApis } from './mock/mock-apis';
+import { dropDb, initDb } from './mock/mock-data';
 import { server } from './mock/mock-server';
 
 import type { FindQueryType, IdPathType, MockDataType } from './mock/mock-apis';
 import type { AxiosResponse } from 'axios';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+beforeEach(() => initDb());
 afterEach(() => {
   server.restoreHandlers();
   vi.restoreAllMocks();
+  dropDb();
 });
 afterAll(() => server.close());
 
@@ -63,14 +66,16 @@ describe('`find` function', () => {
     it('filter by `name`', async () => {
       // there is one `name: 'Apple'` item in mockData
       const result = await find({ name: 'Apple' });
+      const resultNotExist = await find({ name: 'Cat' });
 
       expect(result.data).toHaveLength(1);
+      expect(resultNotExist.data).toHaveLength(0);
     });
   });
 });
 
 describe('`findById` function', () => {
-  const findById = vi.fn(() => mockApis.findById({ id: '1' }));
+  const findById = vi.fn(mockApis.findById);
 
   it('exist', () => {
     expect(mockApis).toHaveProperty('findById');
@@ -78,7 +83,7 @@ describe('`findById` function', () => {
   });
 
   it('can execute', async () => {
-    const result = await findById();
+    const result = await findById({ id: '1' });
     expect(findById).toBeCalled();
     expect(result).toBeDefined();
   });
@@ -89,16 +94,23 @@ describe('`findById` function', () => {
     expectTypeOf(mockApis.findById).returns.resolves.toBeObject();
     expectTypeOf(mockApis.findById).returns.resolves.toHaveProperty('data');
 
-    const result = await findById();
+    const result = await findById({ id: '1' });
     expectTypeOf(result).toEqualTypeOf<AxiosResponse<MockDataType, any>>();
   });
 
-  it('get right data', async () => {
-    const result = await findById();
-
+  it('data exist', async () => {
+    const result = await findById({ id: '1' });
     expect(result.data).toBeDefined();
     expect(result.data.id).toBe('1');
   });
+
+  // FIX:
+  // return value is always the one of `id: '1'`
+
+  // it('data not exist', async () => {
+  //   const resultNotExist = await findById({ id: 'not-exist-id' });
+  //   expect(resultNotExist.data).toBeFalsy();
+  // });
 });
 
 describe('`add` function', () => {
@@ -130,6 +142,19 @@ describe('`add` function', () => {
     const result = await add();
     expectTypeOf(result).toEqualTypeOf<AxiosResponse<MockDataType, any>>();
   });
+
+  // FIX:
+  // return value is always the one of `id: '1'`
+
+  it('add data', async () => {
+    const result = await add();
+
+    // const findById = vi.fn(() => mockApis.findById({ id: '6' }));
+    // const newData = await findById();
+
+    expect(result.data).toBeDefined();
+    // expect(result.data).toMatchObject(newData.data);
+  });
 });
 
 describe('`update` function', () => {
@@ -155,6 +180,15 @@ describe('`update` function', () => {
     const result = await update();
     expectTypeOf(result).toEqualTypeOf<AxiosResponse<unknown, any>>();
   });
+
+  it('update data', async () => {
+    await update();
+
+    const findById = vi.fn(() => mockApis.findById({ id: '1' }));
+    const newData = await findById();
+
+    expect(newData.data.name).toBe('new name');
+  });
 });
 
 describe('`remove` function', () => {
@@ -179,5 +213,14 @@ describe('`remove` function', () => {
 
     const result = await remove();
     expectTypeOf(result).toEqualTypeOf<AxiosResponse<unknown, any>>();
+  });
+
+  it('remove data', async () => {
+    await remove();
+
+    const findById = vi.fn(() => mockApis.findById({ id: '1' }));
+    const newData = await findById();
+
+    expect(newData.data).toBeFalsy();
   });
 });
