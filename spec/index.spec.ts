@@ -20,7 +20,7 @@ it('mockApis existing', () => {
 });
 
 describe('`find` function', () => {
-  const find = vi.fn(() => mockApis.find({}));
+  const find = vi.fn(mockApis.find);
 
   it('exist', () => {
     expect(mockApis).toHaveProperty('find');
@@ -28,7 +28,7 @@ describe('`find` function', () => {
   });
 
   it('can execute', async () => {
-    const result = await find();
+    const result = await find({});
     expect(find).toBeCalled();
     expect(result).toBeDefined();
   });
@@ -39,8 +39,34 @@ describe('`find` function', () => {
     expectTypeOf(mockApis.find).returns.resolves.toBeObject();
     expectTypeOf(mockApis.find).returns.resolves.toHaveProperty('data');
 
-    const result = await find();
+    const result = await find({});
     expectTypeOf(result).toEqualTypeOf<AxiosResponse<MockDataType[], any>>();
+  });
+
+  describe('get right data', () => {
+    // mock-server has set limit default to 3
+    // and offset to 0
+    // `id` in mockData is `index + 1`
+
+    it('default', async () => {
+      const result = await find({});
+
+      expect(result).toBeDefined();
+      expect(result.data).toHaveLength(3);
+    });
+
+    it('set limit to 5', async () => {
+      const result = await find({ limit: 5 });
+
+      expect(result.data).toHaveLength(5);
+    });
+
+    it('filter by `name`', async () => {
+      // there is one `name: 'Apple'` item in mockData
+      const result = await find({ name: 'Apple' });
+
+      expect(result.data).toHaveLength(1);
+    });
   });
 });
 
