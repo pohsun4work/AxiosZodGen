@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 import type { ApiFunctionMapper, IConfig } from './type';
-import type { AxiosInstance } from 'axios';
+import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
+import type { ZodType } from 'zod';
 
 /** Generates an Axios function based on the provided configuration.
  *
@@ -13,9 +14,23 @@ function createApiFunction<T extends IConfig>(
   config: T,
   instance: AxiosInstance = axios.create()
 ) {
-  let { method, url, pathParamSchema, querySchema, bodySchema, returnSchema, ...rest } = config;
+  let { method, url, pathParamSchema, querySchema, bodySchema, ...rest } = config;
 
-  const axiosFunction = async (...args: any[]) => {
+  instance.interceptors.response.use((res) => {
+    const config = res.config as InternalAxiosRequestConfig & { returnSchema?: ZodType };
+    try {
+      if (config.returnSchema && res.data) {
+        res.data = config.returnSchema.parse(res.data);
+      }
+
+      return res;
+    }
+    catch (error) {
+      return Promise.reject(error);
+    }
+  });
+
+  const axiosFunction = (...args: any[]) => {
     // Extract parameters for the API call based on the config.
     // Depending on the presence of path parameters, query string and request body,
     // the arguments will be assigned accordingly from the 'args' variable.
@@ -26,28 +41,17 @@ function createApiFunction<T extends IConfig>(
     if (pathParams) {
       url = url.replace(
         /\/:([\w\-]+)/g,
-        (match, key) => pathParams[key] || match
+        (match, key) => `/${pathParams[key] || match}`
       );
     }
 
-    const instanceReturn = await instance({
+    return instance({
       ...rest,
       method,
       url,
       params: query,
       data,
     });
-
-    if (returnSchema) {
-      const { success, data } = returnSchema.safeParse(instanceReturn.data);
-
-      return {
-        ...instanceReturn,
-        data: success ? data : null,
-      };
-    }
-
-    return instanceReturn;
   };
 
   return axiosFunction as ApiFunctionMapper<T>;
