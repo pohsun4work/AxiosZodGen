@@ -1,14 +1,13 @@
 import { afterAll, afterEach, beforeAll, describe, expect, expectTypeOf, it, vi } from 'vitest';
 
 import { mockApis } from './mock/mock-apis';
-import { resetMockData, server } from './mock/mock-server';
+import { server } from './mock/mock-server';
 
 import type { FindQueryType, IdPathType, MockDataType } from './mock/mock-apis';
 import type { AxiosResponse } from 'axios';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => {
-  resetMockData();
   server.restoreHandlers();
   vi.restoreAllMocks();
 });
