@@ -5,7 +5,7 @@ import { db } from './mock-data';
 
 import type { Fruit } from './mock-data';
 
-export const baseUrl = 'https://axios-zod-gen.com';
+export const baseUrl = 'http://127.0.0.1';
 export const MockUrl = {
   FIND: '/fruit',
   FINDBYID: '/fruit/:id',
