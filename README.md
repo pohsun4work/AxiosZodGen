@@ -1,6 +1,6 @@
 # axios-zod-gen
 
-This package allows you to easily create strongly-typed API functions with runtime validation. Which is based on [Axios]('https://axios-http.com/docs/intro') and [Zod](https://zod.dev/)
+This package allows you to easily create strongly-typed API functions with runtime validation. Which is based on [Axios](https://axios-http.com/docs/intro) and [Zod](https://zod.dev/)
 
 ## Features
 
