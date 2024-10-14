@@ -58,7 +58,13 @@ function createApiFunction<T extends IConfig>(
     if (pathParams) {
       url = url.replace(
         /\/:([\w\-]+)/g,
-        (match, key) => `/${pathParams[key] || match}`
+        (_, key) => {
+          const param = pathParams[key];
+          if (!param) {
+            throw new Error(`Missing required path parameter: ${key}`);
+          }
+          return `/${param}`;
+        }
       );
     }
 
