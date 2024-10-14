@@ -32,14 +32,11 @@ function initApiFunctions<T extends IConfigs>(
   let instance: AxiosInstance;
 
   if (arg && (arg as AxiosInstance).request) {
-    // arg 是 AxiosInstance
     instance = arg as AxiosInstance;
-    console.log('Using provided Axios instance');
   }
-  else { instance = axios.create(arg as CreateAxiosDefaults); }
-
-  // if (arg instanceof Axios) { instance = arg; console.log('here'); }
-  // else { instance = axios.create({ ...arg }); }
+  else {
+    instance = axios.create(arg as CreateAxiosDefaults);
+  }
 
   const apiFunctions = pipe(
     configs,
