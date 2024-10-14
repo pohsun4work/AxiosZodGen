@@ -42,6 +42,12 @@ const apiFunctionsConfig = {
     querySchema: findQuerySchema,
     returnSchema: mockDataSchema.array(),
   },
+  findWithWrongSchema: {
+    method: 'get',
+    url: MockUrl.FIND,
+    querySchema: findQuerySchema,
+    returnSchema: mockDataSchema.extend({ wrong: z.string() }).array(),
+  },
   add: {
     method: 'post',
     url: MockUrl.ADD,

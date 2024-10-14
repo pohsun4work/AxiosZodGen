@@ -18,7 +18,7 @@ afterAll(() => server.close());
 
 it('mockApis existing', () => {
   expect(mockApis).toBeDefined();
-  expect(Object.keys(mockApis)).toHaveLength(5);
+  expect(Object.keys(mockApis)).toHaveLength(6);
 });
 
 describe('`find` function', () => {
@@ -71,6 +71,12 @@ describe('`find` function', () => {
       expect(result.data).toHaveLength(1);
       expect(resultNotExist.data).toHaveLength(0);
     });
+  });
+
+  it('get data not fit returnSchema', async () => {
+    const find = vi.spyOn(mockApis, 'findWithWrongSchema');
+
+    expect(find).toThrowError();
   });
 });
 
