@@ -1,8 +1,11 @@
+import axios from 'axios';
 import { z } from 'zod';
 
 import { initApiFunctions } from '../../src';
 
 import { baseUrl, MockUrl } from './mock-server';
+
+import type { IConfigs } from '../../src';
 
 const mockDataSchema = z.object({
   id: z.string(),
@@ -26,7 +29,7 @@ export interface MockDataType extends z.infer<typeof mockDataSchema> {}
 export interface IdPathType extends z.infer<typeof idPathSchema> {}
 export interface FindQueryType extends z.infer<typeof findQuerySchema> {}
 
-export const mockApis = initApiFunctions({
+const apiFunctionsConfig = {
   findById: {
     method: 'get',
     url: MockUrl.FINDBYID,
@@ -56,4 +59,7 @@ export const mockApis = initApiFunctions({
     url: MockUrl.REMOVE,
     pathParamSchema: idPathSchema,
   },
-}, { baseURL: baseUrl });
+} satisfies IConfigs;
+
+export const mockApis = initApiFunctions(apiFunctionsConfig, { baseURL: baseUrl });
+export const mockApisWithCustomInstance = initApiFunctions(apiFunctionsConfig, axios.create({ baseURL: baseUrl }));
