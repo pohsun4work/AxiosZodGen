@@ -6,6 +6,23 @@ import type { ZodType } from 'zod';
 
 /** Generates an Axios function based on the provided configuration.
  *
+ * This function can also be used independently of `initApiFunctions`,
+ * allowing generate individual API functions as needed.
+ * ```
+ * // example
+ * import { z } from 'zod'
+ * import { createApiFunction } from 'axios-zod-gen'
+ *
+ * const fooApi = createApiFunction({
+ *   method: 'get',
+ *   url: '/demo/:id',
+ *   pathParamSchema: z.object({ id: z.string() })
+ * });
+ *
+ * // where to use
+ * const data = await fooApi({ id: 'demo' });
+ * ```
+ *
  * @param config - The configuration object for the Axios function.
  * @param instance - An optional Axios instance to use for the requests.
  * @returns The generated Axios function that conforms to the specified configuration.
