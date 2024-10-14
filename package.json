@@ -2,7 +2,7 @@
   "name": "axios-zod-gen",
   "type": "module",
   "version": "0.1.0",
-  "description": "Use configurations to generate API functions with Axios.",
+  "description": "Strongly-typed API functions with runtime validation.",
   "author": "PoHsun",
   "license": "MIT",
   "homepage": "https://github.com/pohsun4work/AxiosZodGen#readme",
@@ -14,7 +14,10 @@
     "url": "https://github.com/pohsun4work/AxiosZodGen/issues"
   },
   "keywords": [
-    "axios"
+    "axios",
+    "zod",
+    "api",
+    "typescript"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
