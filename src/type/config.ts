@@ -71,5 +71,25 @@ export type IConfig = IGet | IPost | IPut | IPatch | IDelete;
  *
  * Keys represent the names of API functions, mapping each function
  * to its corresponding API configuration options.
+ *
+ * Use `satisfies` to ensure correct type inference.
+ * @example
+ * ```
+ * const fooConfigs = {
+ *   findById: {
+ *     method: 'get',
+ *     url: '/foo/:id',
+ *     pathParamSchema: z.object({ id: z.string() }),
+ *     returnSchema: fooSchema,
+ *   },
+ *   update: {
+ *     method: 'patch',
+ *     url: '/foo/:id',
+ *     pathParamSchema: z.object({ id: z.string() }),
+ *     bodySchema: fooSchema.omit({ id: true }),
+ *   }
+ * } satisfies IConfigs;
+ * const fooApis = initApiFunctions(fooConfigs, { baseURL: 'http://127.0.0.1' });
+ * ```
  */
 export type IConfigs = Record<string, IConfig>;
