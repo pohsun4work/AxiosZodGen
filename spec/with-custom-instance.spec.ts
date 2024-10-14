@@ -1,6 +1,6 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, expectTypeOf, it, vi } from 'vitest';
 
-import { mockApis } from './mock/mock-apis';
+import { mockApisWithCustomInstance as mockApis } from './mock/mock-apis';
 import { dropDb, initDb } from './mock/mock-data';
 import { server } from './mock/mock-server';
 
