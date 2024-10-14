@@ -42,12 +42,6 @@ const apiFunctionsConfig = {
     querySchema: findQuerySchema,
     returnSchema: mockDataSchema.array(),
   },
-  findWithWrongSchema: {
-    method: 'get',
-    url: MockUrl.FIND,
-    querySchema: findQuerySchema,
-    returnSchema: mockDataSchema.extend({ wrong: z.string() }).array(),
-  },
   add: {
     method: 'post',
     url: MockUrl.ADD,
@@ -64,6 +58,19 @@ const apiFunctionsConfig = {
     method: 'delete',
     url: MockUrl.REMOVE,
     pathParamSchema: idPathSchema,
+  },
+
+  findWithWrongSchema: {
+    method: 'get',
+    url: MockUrl.FIND,
+    querySchema: findQuerySchema,
+    returnSchema: mockDataSchema.extend({ wrong: z.string() }).array(),
+  },
+  findByIdWithWrongPathParams: {
+    method: 'get',
+    url: MockUrl.FINDBYID,
+    pathParamSchema: z.object({ wrongParam: z.string() }),
+    returnSchema: mockDataSchema.array(),
   },
 } satisfies IConfigs;
 
