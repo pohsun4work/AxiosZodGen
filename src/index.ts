@@ -14,6 +14,22 @@ import type { AxiosInstance, CreateAxiosDefaults } from 'axios';
  * @param configs - An object containing the configurations for the Axios functions.
  * @param instanceConfig - Optional configuration settings for the Axios instance.
  * @returns An object containing the generated Axios functions.
+ * @example
+ * ```
+ * import { z } from 'zod'
+ * import { initApiFunctions } from 'axios-zod-gen'
+ *
+ * const fooApi = initApiFunctions({
+ *   findById: {
+ *     method: 'get',
+ *     url: '/foo/:id',
+ *     pathParamSchema: z.object({ id: z.string() })
+ *   }
+ * }, {...}); // add some configs
+ *
+ * // usage
+ * const data = await fooApi.findById({ id: 'demo' });
+ * ```
  */
 function initApiFunctions<T extends IConfigs>(configs: T, instanceConfig?: CreateAxiosDefaults): ApiFunctionsObj<T>;
 /** Creates a set of Axios functions based on the provided configuration.
@@ -23,6 +39,22 @@ function initApiFunctions<T extends IConfigs>(configs: T, instanceConfig?: Creat
  * @param configs - An object containing the configurations for the Axios functions.
  * @param instance - An optional custom Axios instance.
  * @returns An object containing the generated Axios functions.
+ * @example
+ * ```
+ * import { z } from 'zod'
+ * import { initApiFunctions } from 'axios-zod-gen'
+ *
+ * const fooApi = initApiFunctions({
+ *   findById: {
+ *     method: 'get',
+ *     url: '/foo/:id',
+ *     pathParamSchema: z.object({ id: z.string() })
+ *   }
+ * }, axios.create(...)); // add some configs
+ *
+ * // usage
+ * const data = await fooApi.findById({ id: 'demo' });
+ * ```
  */
 function initApiFunctions<T extends IConfigs>(configs: T, instance?: AxiosInstance): ApiFunctionsObj<T>;
 function initApiFunctions<T extends IConfigs>(
