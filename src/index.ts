@@ -8,23 +8,38 @@ import type { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
 /** Creates a set of Axios functions based on the provided configuration.
  *
- * This function initializes an Axios instance with optional interceptors
- * and generates corresponding API functions for each configuration entry.
+ * Initialize an Axios instance and generates corresponding
+ * API functions for each configuration entry.
  *
  * @param configs - An object containing the configurations for the Axios functions.
  * @param instanceConfig - Optional configuration settings for the Axios instance.
- * @param interceptors - Optional array of interceptor functions to modify the Axios instance.
- * @returns A function that returns an object containing the generated Axios functions.
+ * @returns An object containing the generated Axios functions.
  */
-const initApiFunctions = <T extends IConfigs>(
+function initApiFunctions<T extends IConfigs>(configs: T, instanceConfig?: CreateAxiosDefaults): ApiFunctionsObj<T>;
+/** Creates a set of Axios functions based on the provided configuration.
+ *
+ * Get more control and flexibility by passing a custom Axios instance.
+ *
+ * @param configs - An object containing the configurations for the Axios functions.
+ * @param instance - An optional custom Axios instance.
+ * @returns An object containing the generated Axios functions.
+ */
+function initApiFunctions<T extends IConfigs>(configs: T, instance?: AxiosInstance): ApiFunctionsObj<T>;
+function initApiFunctions<T extends IConfigs>(
   configs: T,
-  instanceConfig: CreateAxiosDefaults = {},
-  interceptors: Array<(instance: AxiosInstance) => AxiosInstance> = []
-) => {
-  const instance = interceptors.reduce(
-    (instance, interceptor) => interceptor(instance),
-    axios.create({ ...instanceConfig })
-  );
+  arg: CreateAxiosDefaults | AxiosInstance = {}
+) {
+  let instance: AxiosInstance;
+
+  if (arg && (arg as AxiosInstance).request) {
+    // arg 是 AxiosInstance
+    instance = arg as AxiosInstance;
+    console.log('Using provided Axios instance');
+  }
+  else { instance = axios.create(arg as CreateAxiosDefaults); }
+
+  // if (arg instanceof Axios) { instance = arg; console.log('here'); }
+  // else { instance = axios.create({ ...arg }); }
 
   const apiFunctions = pipe(
     configs,
@@ -35,5 +50,6 @@ const initApiFunctions = <T extends IConfigs>(
   return apiFunctions as unknown as ApiFunctionsObj<T>;
 };
 
+export type { IConfig, IConfigs };
 export { createApiFunction, initApiFunctions };
 export default initApiFunctions;
