@@ -44,13 +44,9 @@ type IConfigBase = {
 
   /** Schema for validating the response.
    *
-   * Use Zod's `safeParse` to ensure the returned data is valid.
-   *
-   * If `safeParse`'s `success` is `false`, the response data will be set to `null`,
-   * allowing for graceful handling of invalid data.
+   * Use Zod's `parse` method to ensure the returned data is valid.
    */
   returnSchema?: ZodType;
-
 } & Omit<AxiosRequestConfig, 'method' | 'url' | 'params' | 'data'>;
 type IConfigWithoutQuery = IConfigBase & { querySchema?: never };
 type IConfigWithoutBody = IConfigBase & { bodySchema?: never };

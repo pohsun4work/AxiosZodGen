@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { mapValues, pipe } from 'remeda';
+import z from 'zod';
 
 import { createApiFunction } from './create-api-function';
 
@@ -80,5 +81,10 @@ function initApiFunctions<T extends IConfigs>(
 };
 
 export type { IConfig, IConfigs };
-export { createApiFunction, initApiFunctions };
+export {
+  createApiFunction,
+  initApiFunctions,
+  /** export default from Zod to resolve missing IDE suggestions */
+  z
+};
 export default initApiFunctions;
