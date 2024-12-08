@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { mapValues, pipe } from 'remeda';
-import z from 'zod';
 
 import { createApiFunction } from './create-api-function';
 
@@ -17,8 +16,7 @@ import type { AxiosInstance, CreateAxiosDefaults } from 'axios';
  * @returns An object containing the generated Axios functions.
  * @example
  * ```
- * import { z } from 'zod'
- * import { initApiFunctions } from 'axios-zod-gen'
+ * import { initApiFunctions, z } from 'axios-zod-gen'
  *
  * const fooApi = initApiFunctions({
  *   findById: {
@@ -42,8 +40,7 @@ function initApiFunctions<T extends IConfigs>(configs: T, instanceConfig?: Creat
  * @returns An object containing the generated Axios functions.
  * @example
  * ```
- * import { z } from 'zod'
- * import { initApiFunctions } from 'axios-zod-gen'
+ * import { initApiFunctions, z } from 'axios-zod-gen'
  *
  * const fooApi = initApiFunctions({
  *   findById: {
@@ -81,10 +78,7 @@ function initApiFunctions<T extends IConfigs>(
 };
 
 export type { IConfig, IConfigs };
-export {
-  createApiFunction,
-  initApiFunctions,
-  /** export default from Zod to resolve missing IDE suggestions */
-  z
-};
+export { createApiFunction, initApiFunctions };
+/** export default from Zod to resolve missing IDE suggestions */
+export { z } from 'zod';
 export default initApiFunctions;
