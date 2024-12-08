@@ -14,8 +14,7 @@ import type { ZodType } from 'zod';
  * @returns The generated Axios function that conforms to the specified configuration.
  * @example
  * ```
- * import { z } from 'zod'
- * import { createApiFunction } from 'axios-zod-gen'
+ * import { createApiFunction, z } from 'axios-zod-gen'
  *
  * const fooApi = createApiFunction({
  *   method: 'get',
