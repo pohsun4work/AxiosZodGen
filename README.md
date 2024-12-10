@@ -1,5 +1,9 @@
 # axios-zod-gen
 
+---
+#### When the API response does not match `returnSchema`, the expected status code is 400. However, since the status code cannot be modified through Axios interceptors, the library is being deprecated.
+---
+
 This package allows you to easily create strongly-typed API functions with runtime validation. Which is based on [Axios](https://axios-http.com/docs/intro) and [Zod](https://zod.dev/)
 
 ## Features
